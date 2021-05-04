@@ -1,0 +1,16 @@
+import sys
+
+numb = []
+for line in open(sys.argv[1]):
+    number = line.strip("\n")
+    numb.append(number)
+
+
+for n in numb:
+    for i in range(0, len(numb)):
+        add = int(n) + int(numb[i])
+        if add == 2020:
+            print(n + " "  + numb[i])
+            #print("{} {}".format( n,numb[i] ))
+            multiply = int(n) * int(numb[i])
+            print(multiply)
