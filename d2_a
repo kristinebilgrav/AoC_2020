@@ -1,0 +1,31 @@
+import sys
+
+#right 3 down 1
+#tree = #
+# pattern repeats
+
+pos = 0
+trees = 0
+for line in open(sys.argv[1]):
+    one = line.strip("\n")
+
+    if (one[pos] == "#") :
+        trees +=1
+        print("count", pos)
+
+    if pos == len(one):
+        pos = 3
+        continue
+    if pos == (len(one) - 1):
+        pos = 2
+        continue
+    if pos == (len(one) - 2):
+        pos = 1
+        continue
+    if pos == (len(one) - 3):
+        pos = 0
+        continue
+    else:
+	pos += 3
+
+print(trees)
