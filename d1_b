@@ -1,0 +1,19 @@
+import sys
+
+numb = []
+for line in open(sys.argv[1]):
+    number = line.strip("\n")
+    numb.append(int(number))
+t = 0
+for n in numb:
+    for no in numb:
+        tall = n + no
+        #print(numb[t])
+        if tall < 2020:
+            for i in numb:
+                ja = n + i
+                tall2 = tall + i
+                if tall2 == 2020:
+                    print(n, no,i)
+                    print(n*no*i)
+
