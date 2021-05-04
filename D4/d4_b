@@ -1,0 +1,100 @@
+
+#byr (Birth Year) 1920 - 2002
+#iyr (Issue Year) 2010 - 2020
+#eyr (Expiration Year) 2020 - 2030
+#hgt (Height) in: 59 - 76 or cm: 150 - 193
+#hcl (Hair Color) # and 6 chr 0-9 or a-f
+#ecl (Eye Color) amb, blu brn gry grn hzl oth
+#pid (Passport ID) 9 numbers
+#cid (Country ID)
+
+#valid = all fields ++ only missing cid
+#192
+#101
+
+import sys
+
+required = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
+optional = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid', 'cid']
+
+byr = range(1920,2021)
+iyr = range(2010,2021)
+eyr = range(2020,2031)
+hgtin = range(59,77)
+hgtcm = range(150,194)
+ecl = ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']
+
+allines = ""
+for line in open(sys.argv[1]):
+    allines+= line
+
+passes = []
+asplit = allines.split("\n\n")
+for i in asplit:
+    newi = i.replace("\n", " ")
+    passes.append(newi)
+
+required.sort()
+optional.sort()
+valid = 0
+validfields = []
+#print(passes)
+for p in passes:
+    newp = p.split()
+    #print(newp)
+    passind = []
+    for n in newp:
+        passind.append(n.split(":")[0])
+    passind.sort()
+    if passind == required:
+        valid += 1
+        validfields.append(newp)
+    if passind == optional:
+        valid += 1
+        validfields.append(newp)
+
+#print(validfields)
+validf = 0
+for lst in validfields:
+    lstcount = 0
+    for l in lst:
+        id = l.split(":")[0]
+        value = l.split(":")[1]
+
+        if id == "byr" and (int(value) in byr):
+            lstcount += 1
+
+        if id == "iyr" and (int(value) in iyr):
+            lstcount += 1
+
+        if id == "eyr" and int(value) in eyr:
+            lstcount += 1
+
+        if id == "hgt":
+            if "cm" in value:
+                cm = value.split("cm")[0]
+                if int(cm) in hgtcm:
+                    lstcount += 1
+            elif "in" in value:
+                inch = value.split("in")[0]
+                if int(inch) in hgtin:
+                    lstcount += 1
+
+        if id == "ecl":
+            if value in ecl:
+                lstcount += 1
+            else:
+                continue
+        if id == "pid" and len(value) == 9:
+            lstcount+= 1
+
+        if "hcl" in id and "#" in value:
+            followedby = value.split("#")[-1]
+            if len(followedby) == 6:
+                lstcount += 1
+
+    #print(lstcount)
+    if lstcount == 7:
+        validf += 1
+print(validf)
+
