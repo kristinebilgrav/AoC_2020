@@ -1,0 +1,46 @@
+#byr (Birth Year)
+#iyr (Issue Year)
+#eyr (Expiration Year)
+#hgt (Height)
+#hcl (Hair Color)
+#ecl (Eye Color)
+#pid (Passport ID)
+#cid (Country ID)
+
+#valid = all fields ++ only missing cid
+#191, 216
+
+import sys
+
+required = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
+optional = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid', 'cid']
+
+
+allines = ""
+for line in open(sys.argv[1]):
+    allines+= line
+
+passes = []
+asplit = allines.split("\n\n")
+for i in asplit:
+    newi = i.replace("\n", " ")
+    passes.append(newi)
+
+required.sort()
+optional.sort()
+valid = 0
+
+#print(passes)
+for p in passes:
+    newp = p.split()
+    #print(newp)
+    passind = []
+    for n in newp:
+        passind.append(n.split(":")[0])
+    passind.sort()
+    if passind == required:
+        valid += 1
+    if passind == optional:
+        valid += 1
+
+print(valid)
