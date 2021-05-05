@@ -1,0 +1,77 @@
+import sys
+
+seatID = 0
+allseatID =[]
+
+for line in open(sys.argv[1]):
+    row = 0
+    col = 0
+    num = line.strip("\n")
+    if num[0] == "F":
+        row += 0
+    elif num[0] == "B":
+        row += 64
+
+    if num[1] == "F":
+        row += 0
+    elif num[1] == "B":
+        row += 32
+
+    if num[2] == "F":
+        row += 0
+    elif num[2] == "B":
+        row += 16
+
+    if num[3] == "F":
+        row += 0
+    elif num[3] == "B":
+        row += 8
+
+    if num[4] == "F":
+        row += 0
+    elif num[4] == "B":
+        row += 4
+
+    if num[5] == "F":
+        row += 0
+    elif num[5] == "B":
+        row += 2
+
+    if num[6] == "F":
+        row += 0
+    elif num[6] == "B":
+        row += 1
+
+    if num[7] == "R":
+        col += 4
+    elif num[7] == "L":
+        col += 0
+
+    if num[8] == "R":
+        col += 2
+    elif num[8] == "L":
+        col += 0
+
+    if num[9] == "R":
+        col += 1
+    elif num[9] == "L":
+        col += 0
+
+    numID = row * 8 + col
+    allseatID.append(numID)
+
+    if numID > seatID:
+        seatID = numID
+
+#    print(row, col)
+#print(seatID)
+
+
+allseatID.sort()
+for t in range(allseatID[0], allseatID[-1]):
+    if t not in allseatID:
+        print(t)
+
+
+#print(allseatID)
+
