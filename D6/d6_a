@@ -1,0 +1,26 @@
+#a-z, count once
+
+import sys
+import string
+
+char = list(string.ascii_lowercase)
+
+longline = ""
+
+for line in open(sys.argv[1]):
+    longline += line
+
+grouplist = longline.split("\n\n")
+
+totalyes = 0
+for g in grouplist:
+    groupyes = 0
+    newg = g.replace("\n", "")
+    nchar = list(newg)
+    for a in char:
+        if a in nchar:
+            groupyes += 1
+    print(groupyes)
+    totalyes += groupyes
+
+print(totalyes)
