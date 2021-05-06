@@ -1,0 +1,31 @@
+import sys
+import string
+
+char = list(string.ascii_lowercase)
+
+longline = ""
+
+for line in open(sys.argv[1]):
+    longline += line
+
+grouplist = longline.split("\n\n")
+
+totalyes = 0
+for g in grouplist:
+    groupyes = 0
+    grouplist = {}
+    newg = g.replace("\n", " ").split() #list with all group input
+    for n in newg:
+        nchar = list(n) #splitted input from group
+        for nc in nchar:
+            if nc not in grouplist:
+                grouplist[nc] = 0
+            grouplist[nc] += 1
+            
+    for a in char:
+        if a in grouplist:
+            if grouplist[a] == len(newg):
+                groupyes += 1
+    totalyes += groupyes
+
+print(totalyes)
