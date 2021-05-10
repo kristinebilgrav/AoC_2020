@@ -1,0 +1,42 @@
+import sys
+import copy
+
+def colors_forever(s, dict):
+    """Input string color and dict"""
+    rerun = set([])
+    for k in dict:
+        for word in dict[k]:
+            if s in word:
+                 rerun.add(k)
+    return rerun
+
+bagdict = {}
+for line in open(sys.argv[1]):
+    arule = line.strip("\n")
+    outerbag = arule.split("contain")[0].replace("bags", "").strip(" ")
+    innerbags_hej = arule.split("contain ")[-1].replace("bags", "").replace("bag", "").strip(".").split(" , ")
+    bagdict[outerbag]=[]
+    for b in innerbags_hej:
+        b=b.strip("123456789 ")
+        #print(b)
+        bagdict[outerbag].append(b)
+
+#print(bagdict)
+
+bagcolors = set([])
+bagcolors.add("shiny gold")
+initial_bagcol=len(bagcolors)
+while True:
+    for v in copy.copy(bagcolors):
+        bagcolors=bagcolors.union(colors_forever(v, bagdict))
+        print(bagcolors)
+
+    if initial_bagcol < len(bagcolors):
+            initial_bagcol=len(bagcolors)
+    else:
+            break
+
+    #print(bagcolors)
+
+print(len(bagcolors)-1)
+#print(bagcolors)
