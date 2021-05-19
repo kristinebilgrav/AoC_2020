@@ -1,0 +1,41 @@
+import sys
+
+code = []
+for line in open(sys.argv[1]):
+    code.append(line.strip("\n"))
+
+
+lastvalue= 0
+doneinstr = []
+instr = 0
+
+for i in range(0, len(code)):
+    if instr in doneinstr:
+        break
+    print(instr)
+    doneinstr.append(instr)
+    instruction = code[instr].strip("\n").split()[0]
+    operation = code[instr].strip("\n").split()[-1]
+    print(instruction, operation)
+
+    if "acc" in instruction and "+" in operation:
+        lastvalue +=  int(operation.split("+")[-1])
+
+    if "acc" in instruction and "-" in operation:
+        lastvalue += - int(operation.split("-")[-1])
+
+    if "jmp" in instruction and "+" in operation:
+        doneinstr.append(instr)
+        instr += int(operation.split("+")[-1])
+        continue
+
+    if "jmp" in instruction and "-" in operation:
+        doneinstr.append(instr)
+        instr += - int(operation.split("-")[-1])
+        continue
+    else:
+        instr += 1
+    print(doneinstr)
+
+
+print(lastvalue)
