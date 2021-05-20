@@ -1,0 +1,39 @@
+import sys
+
+#25 numbers
+# 26th should be product of two of the 25 numbers
+#217430975 correct
+
+all_numb =[]
+for line in open(sys.argv[1]):
+    all_numb.append(line.strip("\n"))
+
+def sumnumbers(p,lst):
+    clist = []
+    for no in lst:
+        for n in lst:
+            comb = int(no) + int(n)
+            #print(comb)
+            clist.append(comb)
+    #print(clist)
+    if int(p) not in clist:
+        return p
+    else:
+        return False
+
+min = 0
+max = 25
+i = 26
+
+for n in all_numb:
+    if max >= len(all_numb)-1:
+        break
+    currentrange = all_numb[min:max]
+    currentnumb = all_numb[i]
+    round = sumnumbers(currentnumb, currentrange)
+    if round:
+        print(round)
+    #break
+    min += 1
+    max += 1
+    i += 1
