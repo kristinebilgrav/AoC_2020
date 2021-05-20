@@ -1,0 +1,37 @@
+import sys
+import copy
+
+
+def colors_forever(s, dict,c):
+    """Input string color and dict"""
+    unicorns = []
+    bagcheck = []
+    values=[]
+    count = c
+    for k in dict[s]:
+        #print(dict[s][k])
+        count += c*colors_forever(k, dict, dict[s][k])
+        #colors_forever(k, dict, dict[s][k])
+
+        print(colors_forever(k, dict, dict[s][k]))
+    #print(count)
+    return(count)
+
+bagdict = {}
+for line in open(sys.argv[1]):
+    arule = line.strip("\n")
+    outerbag = arule.split(" contain")[0].replace("bags", "").strip()
+    bagdict[outerbag]={}
+    innerbags = arule.split("contain ")[-1].replace("bags", "").replace("bag", "").strip(".").split(" , ")
+    for b in innerbags:
+        b= b.strip()
+        if b == "no other":
+            continue
+        number =int(b.split(" ",)[0])
+        bag = " ".join(b.split(" ",)[1:])
+        bagdict[outerbag][bag] = number
+
+print(bagdict)
+
+totalbags =colors_forever("shiny gold", bagdict, 1)-1
+print(totalbags)
