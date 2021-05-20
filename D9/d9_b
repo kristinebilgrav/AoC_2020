@@ -1,0 +1,35 @@
+import sys
+
+#25 numbers
+# 26th should be product of two of the 25 numbers
+#217430975 correct
+
+all_numb =[]
+for line in open(sys.argv[1]):
+    all_numb.append(int(line.strip("\n")))
+
+def findnum(p, lst):
+    #print(sum(lst))
+    if sum(lst) == p:
+        slst = sorted(lst)
+        add = slst[0] + slst[-1]
+        return add
+    else:
+        return False
+
+min = 0
+max = 2
+
+while True:
+    if max > len(all_numb):
+        min += 1
+        max = min +2
+    #print(min, max)
+    currentrange = all_numb[min:max]
+    #print(currentrange)
+    currentnumb = 217430975
+    round = findnum(currentnumb, currentrange)
+    if round:
+        print(round)
+        break
+    max += 1
