@@ -1,0 +1,99 @@
+import math
+import sys
+import itertools
+
+#adapter can take 1, 2 or 3 lower
+#computers highest is 3 higher than highest
+#use all adapters: how many different ways
+
+jolts = []
+jolts.append(0)
+for line in open(sys.argv[1]):
+    item = int(line.strip("\n"))
+    jolts.append(item)
+
+sjolts = sorted(jolts)
+print(sjolts)
+
+ones = {}
+twos = {}
+threes = {}
+
+outlet = 0
+computer = sjolts[-1] + 3
+uniquecomb = []
+combin = 0
+
+one = 1
+two = 2
+three = 3
+for j in sjolts:
+    ones[j] = []
+    twos[j] = []
+    threes[j] = []
+    for jo in sjolts:
+        diff = jo - j
+        if diff ==1:
+            ones[j].append(jo)
+        if diff ==2 :
+            twos[j].append(jo)
+        if diff ==3:
+            threes[j].append(jo)
+        else:
+            continue
+
+
+manlist = []
+manlist.append(0)
+varlist = []
+mandatory = 0
+for s in sjolts:
+    options = 0
+    nlst = []
+    if len(ones[s]) > 0:
+        options += 1
+        nlst.append(ones[s][0])
+    if len(twos[s]) > 0:
+        options += 1
+        nlst.append(twos[s][0])
+    if len(threes[s]) >0:
+        options += 1
+        nlst.append(threes[s][0])
+    if options == 1:
+        mandatory += 1
+        manlist.append(nlst[0])
+
+varlist=[]
+hej=[]
+for n in sjolts:
+    if n not in manlist:
+        varlist.append(n)
+    else:
+
+        if len(varlist) <3:
+            iter_count=1
+        else:
+            iter_count=0
+
+        for i in range(0, len(varlist)):
+            tested_iter=set([])
+            iter = list(itertools.permutations(varlist,i+1))
+            for it in iter:
+                tested= "-".join(( list( map(str,sorted(it) ) ) ))
+
+                if tested in tested_iter:
+                   continue
+                print(tested)
+                iter_count+=1
+                tested_iter.add(tested)
+
+        if len(varlist) > 0:
+           hej.append(iter_count)
+           print(varlist,iter_count)
+        varlist=[]
+
+print(hej)
+o=1
+for n in hej:
+    o=o* n
+print(o)
