@@ -1,0 +1,35 @@
+import sys
+
+
+lst = []
+for line in open(sys.argv[1]):
+    line = line.strip("\n")
+    lst.append(line)
+
+timestamp = int(lst[0])
+
+busses = []
+
+for i  in lst[1:]:
+    i = i.split(",")
+    for b in i:
+        if b == "x":
+            continue
+        else:
+            busses.append(b)
+
+#print(busses)
+time = timestamp
+
+while time < 1000000000:
+    time += 1
+    for bus in busses:
+        if time >= timestamp:
+            if time % int(bus) == 0:
+                print(time, bus)
+                wait = time - timestamp
+                print(wait)
+                print(wait*int(bus))
+                quit()
+
+
