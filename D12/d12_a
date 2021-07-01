@@ -1,0 +1,65 @@
+
+dir = []
+for line in open(sys.argv[1]):
+    inst = line.strip("\n")
+    dir.append(inst)
+#print(dir)
+
+
+dire = "E"
+rightid ={270:"N", 180:"W", 90:"S", 0:"E",360:"E"}
+
+
+RL = 0
+N = 0
+S = 0
+E = 0
+W = 0
+for d in dir:
+    print(d, dire)
+    if "E" in d:
+        numb = d.split("E")[-1]
+        E += int(numb)
+    if "N" in d:
+        numb = d.split("N")[-1]
+        N += int(numb)
+    if "W" in d:
+        numb = d.split("W")[-1]
+        W += int(numb)
+    if "S" in d:
+        numb = d.split("S")[-1]
+        S += int(numb)
+    if "L" in d:
+        numb = d.split("L")[-1]
+        RL = RL - int(numb)
+        if RL > 360:
+            RL = RL -360
+        if RL <0:
+            RL += 360
+    if "R" in d:
+        numb = d.split("R")[-1]
+        RL += int(numb)
+        if RL > 360 :
+            RL = RL - 360
+    if "F" in d:
+        numb = d.split("F")[-1]
+        if dire == "E":
+            E += int(numb)
+        if dire == "W":
+            W += int(numb)
+        if dire == "S":
+            S += int(numb)
+        if dire == "N":
+            N += int(numb)
+    if RL in rightid:
+        dire = rightid[RL]
+
+
+NS = S-N
+EW = E-W
+print(EW, NS)
+print("RL", RL)
+print("S", S)
+print("N", N)
+print("W", W)
+print("E", E)
