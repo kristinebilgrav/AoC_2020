@@ -1,0 +1,87 @@
+import sys
+import copy
+
+#if L and no occupied (#)adjecent -> #
+#if occupied and four or more adjecent occupied -> L
+#otherwise nothing
+#when stabilize, how many seats occupied
+
+boat = []
+for line in open(sys.argv[1]):
+    onerow = []
+    for  c in line.strip("\n"):
+        onerow.append(c)
+    boat.append(onerow)
+    #boat.append(line.strip("\n"))
+
+
+newboat = copy.deepcopy(boat)
+
+c = 0
+while True:
+    c += 1
+    for r in range(0, len(boat)):
+        for s in range(0, len(boat[r])):
+            adjacent = 0
+            if newboat[r][s] == ".":
+                continue
+
+            #right
+            if len(newboat[r]) > s+1:
+               if newboat[r][s+1] == "#":
+                  adjacent+= 1
+
+            if s > 0:
+                #left
+                if newboat[r][s-1] == "#":
+                   adjacent+= 1
+
+            if len(newboat) > r+1 :
+                #up
+                if newboat[r+1][s] == "#":
+                    adjacent+= 1
+
+                #down
+            if r > 0:
+                if newboat[r-1][s] == "#":
+                    adjacent+= 1
+
+            if len(newboat) > r+1 and len(newboat[r]) > s+1:
+                #up right
+                if newboat[r+1][s+1] == "#" :
+                    adjacent+= 1
+
+
+            if len(newboat) > r+1 and s >0:
+                #up left
+                if newboat[r+1][s-1] == "#" :
+                    adjacent+= 1
+
+
+            if r> 0 and len(newboat[r]) > s+1:
+            #down right
+                if newboat[r-1][s+1] == "#" :
+                    adjacent+= 1
+
+            if r >0 and s>0:
+                #down left
+                if newboat[r-1][s-1] == "#" :
+                    adjacent+= 1
+
+
+            if adjacent == 0:
+                boat[r][s] = "#"
+            elif adjacent >= 4:
+                boat[r][s]= "L"
+
+    newboat = copy.deepcopy(boat)
+    if c == 2000:
+       break
+
+
+taken = 0
+for r in boat:
+    taken += r.count("#")
+print(taken)
+
+
