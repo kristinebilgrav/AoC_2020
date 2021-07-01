@@ -1,0 +1,71 @@
+import sys
+
+dir = []
+for line in open(sys.argv[1]):
+    inst = line.strip("\n")
+    dir.append(inst)
+#print(dir)
+
+
+#R ={90:"S", 180:"W", 270:"N", 360:"E", 0:"E"}
+#L={90:"E", 180:"S", 270:"W", 360:"N", 0:"N"}
+
+#s_pos = {"E": 0, "W": 0, "S": 0, "N": 0}
+#w_pos = {"E": 10, "W": 0, "S": 0, "N": 1}
+#WR = 0
+#WL = 0
+
+RL = 0
+
+dirWE = "E"
+dirNS= "N"
+
+w_NS = 1
+w_WE = 10
+
+s_NS = 0
+s_WE = 0
+
+for d in dir:
+
+    if d[0] == "N":
+        w_NS += int(d[1:])
+    if d[0] == "S":
+        w_NS = w_NS - int(d[1:])
+    elif d[0] == "E":
+        w_WE += int(d[1:])
+    elif d[0] == "W" :
+        w_WE = w_WE - int(d[1:])
+
+    if d[0] ==  "L":
+        number=360-int(d[1:])
+        d="R{}".format(number)
+
+    if d[0] == "R":
+
+        RL = int(d[1:])
+        if RL == 90:
+            w_WE, w_NS = w_NS, -w_WE
+
+        elif RL == 270:
+            w_WE, w_NS = -w_NS, w_WE
+
+        elif RL == 180:
+            w_WE, w_NS = -w_WE, -w_NS
+
+        elif RL == 0  or RL == 360:
+            continue
+
+    if d[0] == "F":
+        s_NS += w_NS * int(d[1:])
+        s_WE += w_WE * int(d[1:])
+
+    #print("wp", w_NS, w_WE)
+    #print("ship", s_NS, s_WE)
+
+print(w_NS, w_WE)
+print(s_NS, s_WE)
+
+
+manhattan = abs(s_NS) + abs(s_WE)
+print(manhattan)
