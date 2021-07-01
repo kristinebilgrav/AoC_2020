@@ -1,0 +1,154 @@
+import sys
+import copy
+
+#if L and no occupied (#)adjecent -> #
+#if occupied and four or more adjecent occupied -> L
+#otherwise nothing
+#when stabilize, how many seats occupied
+
+boat = []
+for line in open(sys.argv[1]):
+    onerow = []
+    for  c in line.strip("\n"):
+        onerow.append(c)
+    boat.append(onerow)
+    #boat.append(line.strip("\n"))
+
+
+newboat = copy.deepcopy(boat)
+
+c = 0
+while True:
+    c += 1
+    for r in range(0,len(boat)):
+        for s in range(0, len(boat[r])):
+            adjacent = 0
+            if boat[r][s]== ".":
+                continue
+
+            for down in range(r+1, len(boat)):
+                if boat[down][s] == "#":
+                    adjacent += 1
+                    break
+                if boat[down][s] == "L":
+                    break
+
+            for upp in range(r-1,-1, -1):
+                if boat[upp][s] == "#":
+                    adjacent += 1
+                    break
+                if boat[upp][s] == "L":
+                    break
+
+
+            for ri in range(s+1, len(boat[r])):
+                if boat[r][ri] == "#":
+                    adjacent += 1
+                    break
+                if boat[r][ri] == "L":
+                    break
+
+            for lf in range(s-1,-1, -1):
+                if boat[r][lf] == "#":
+                    adjacent += 1
+                    break
+                if boat[r][lf] == "L":
+                    break
+
+            #down left
+            m=r+1
+            k=s-1
+            while m < len(boat) and k > -1:
+                if boat[m][k] == "#":
+                    adjacent += 1
+                    break
+                if boat[m][k] == "L":
+                    break
+                m+=1
+                k+=-1
+
+            #up right
+            m=r+1
+            k=s+1
+            while m < len(boat) and k < len(boat[r]):
+                if boat[m][k] == "#":
+                    adjacent += 1
+                    break
+                if boat[m][k] == "L":
+                    break
+                m+=1
+                k+=1
+
+            #down right
+            m=r-1
+            k=s-1
+            while m > -1 and k > -1:
+                if boat[m][k] == "#":
+                    adjacent += 1
+                    break
+                if boat[m][k] == "L":
+                    break
+                m+=-1
+                k+=-1
+        #down left
+            m=r+1
+            k=s-1
+            while m < len(boat) and k > -1:
+                if boat[m][k] == "#":
+                    adjacent += 1
+                    break
+                if boat[m][k] == "L":
+                    break
+                m+=1
+                k+=-1
+
+            #up right
+            m=r+1
+            k=s+1
+            while m < len(boat) and k < len(boat[r]):
+                if boat[m][k] == "#":
+                    adjacent += 1
+                    break
+                if boat[m][k] == "L":
+                    break
+                m+=1
+                k+=1
+
+            #down right
+            m=r-1
+            k=s-1
+            while m > -1 and k > -1:
+                if boat[m][k] == "#":
+                    adjacent += 1
+                    break
+                if boat[m][k] == "L":
+                    break
+                m+=-1
+                k+=-1
+
+            #down left
+            m=r-1
+            k=s+1
+            while m > -1 and k  < len(boat[r]):
+                if boat[m][k] == "#":
+                    adjacent += 1
+                    break
+                if boat[m][k] == "L":
+                    break
+                m+=-1
+                k+=1
+
+            if adjacent > 4:
+                newboat[r][s] = "L"
+            if adjacent == 0:
+                newboat[r][s] = "#"
+
+    boat = copy.deepcopy(newboat)
+    if c == 390:
+        break
+
+total = 0
+for r in boat:
+    print(r)
+    total += r.count("#")
+print(total)
